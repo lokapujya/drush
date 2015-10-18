@@ -41,15 +41,32 @@ class drush_outputformat_table extends drush_outputformat {
       }
       ++$col;
     }
-    $rows = drush_rows_of_key_value_to_array_table($input, $field_list, $metadata);
+    $temp_rows = drush_rows_of_key_value_to_array_table($input, $field_list, $metadata);
+    array_shift($temp_rows);
+    $climate = new League\CLImate\CLImate;
     /*$field_labels = array_key_exists('include-field-labels', $metadata) && $metadata['include-field-labels'];
     if (!$field_labels) {
       array_shift($rows);
     }
     return drush_format_table($rows, $field_labels, $widths);*/
+    $field_list = array_values($field_list);
+    foreach($temp_rows as $key=>$row) {
+      for($i=0;$i<5;$i++) {
+        $rows[$key][$field_list[$i]] = $row[$i];
+        if($i==0) {
+          $rows[$key][$field_list[$i]] = "<bold>" . $row[$i] . "</bold>";
+          // Thought putting objects into the table would work, but doesn't.
+          //$rows[$key][$field_list[$i]] = $climate->bold($row[$i]);
+        }
+        if($i==3) {
+          if ($row[$i] =="Enabled") {
+            $rows[$key][$field_list[$i]] = "<bold>" . $row[$i] . "</bold>";
+          }
+        }
+      }
+    }
 
-    $climate = new League\CLImate\CLImate;
-    $climate->border('-*-')->bluetable($rows);
+    $climate->bluetable($rows);
     //return $rows;
   }
 }
