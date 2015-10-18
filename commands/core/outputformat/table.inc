@@ -42,10 +42,14 @@ class drush_outputformat_table extends drush_outputformat {
       ++$col;
     }
     $rows = drush_rows_of_key_value_to_array_table($input, $field_list, $metadata);
-    $field_labels = array_key_exists('include-field-labels', $metadata) && $metadata['include-field-labels'];
+    /*$field_labels = array_key_exists('include-field-labels', $metadata) && $metadata['include-field-labels'];
     if (!$field_labels) {
       array_shift($rows);
     }
-    return drush_format_table($rows, $field_labels, $widths);
+    return drush_format_table($rows, $field_labels, $widths);*/
+
+    $climate = new League\CLImate\CLImate;
+    $climate->border('-*-')->bluetable($rows);
+    //return $rows;
   }
 }
