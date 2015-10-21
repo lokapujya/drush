@@ -43,7 +43,6 @@ class drush_outputformat_table extends drush_outputformat {
     }
     $temp_rows = drush_rows_of_key_value_to_array_table($input, $field_list, $metadata);
     array_shift($temp_rows);
-    $climate = new League\CLImate\CLImate;
     /*$field_labels = array_key_exists('include-field-labels', $metadata) && $metadata['include-field-labels'];
     if (!$field_labels) {
       array_shift($rows);
@@ -54,9 +53,24 @@ class drush_outputformat_table extends drush_outputformat {
       for($i=0;$i<5;$i++) {
         $rows[$key][$field_list[$i]] = $row[$i];
         if($i==0) {
-          $rows[$key][$field_list[$i]] = "<bold>" . $row[$i] . "</bold>";
-          // Thought putting objects into the table would work, but doesn't.
-          //$rows[$key][$field_list[$i]] = $climate->bold($row[$i]);
+          if ($row[3] =="Enabled") {
+            $rows[$key][$field_list[$i]] = "<bold>" . $row[$i] . "</bold>";
+          }
+        }
+        if($i==1) {
+          if ($row[3] =="Enabled") {
+            $rows[$key][$field_list[$i]] = "<bold>" . $row[$i] . "</bold>";
+          }
+        }
+        if($i==2) {
+          if ($row[3] =="Enabled") {
+            $rows[$key][$field_list[$i]] = "<bold>" . $row[$i] . "</bold>";
+          }
+        }
+        if($i==4) {
+          if ($row[3] =="Enabled") {
+            $rows[$key][$field_list[$i]] = "<bold>" . $row[$i] . "</bold>";
+          }
         }
         if($i==3) {
           if ($row[$i] =="Enabled") {
@@ -65,8 +79,10 @@ class drush_outputformat_table extends drush_outputformat {
         }
       }
     }
-
-    $climate->bluetable($rows);
+    $climate = new League\CLImate\CLImate;
+    $climate->extend('Drush\Console\DrushTable');
+    //$climate->border('');
+    $climate->table($rows);
     //return $rows;
   }
 }
