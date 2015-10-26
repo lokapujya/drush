@@ -80,9 +80,9 @@ class drush_outputformat_table extends drush_outputformat {
       }
     }
     $climate = new League\CLImate\CLImate;
-    $climate->extend('Drush\Console\DrushTable');
+    $climate->extend('Drush\Console\Tabulation');
     //$climate->border('');
-    $climate->table($rows);
+    $climate->tabulation($rows);
     //return $rows;
   }
 }
